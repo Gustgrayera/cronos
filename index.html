@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronômetro com Ícones</title>
+    <!-- Link para o CSS do Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Link para o Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .timer-display {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body class="d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div class="text-center">
+        <div id="timer" class="timer-display">00:00:00</div>
+        <div class="btn-group">
+            <button id="startPauseBtn" class="btn btn-success">
+                <i class="bi bi-play-fill"></i> <!-- Ícone de iniciar -->
+            </button>
+            <button id="resetBtn" class="btn btn-danger" disabled>
+                <i class="bi bi-arrow-clockwise"></i> <!-- Ícone de reiniciar -->
+            </button>
+        </div>
+    </div>
+
+    <!-- Script do Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Script JavaScript para o cronômetro -->
+    <script>
+        const timerDisplay = document.getElementById('timer');
+        const startPauseBtn = document.getElementById('startPauseBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        let timerInterval;
+        let elapsedSeconds = 0;
+        let isRunning = false;
+
+        const formatTime = (seconds) => {
+            const hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
+            const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+            const secs = String(seconds % 60).padStart(2, '0');
+            return `${hrs}:${mins}:${secs}`;
+        };
+
+        const updateDisplay = () => {
+            timerDisplay.textContent = formatTime(elapsedSeconds);
+        };
+
+        const startTimer = () => {
+            timerInterval = setInterval(() => {
+                elapsedSeconds++;
+                updateDisplay();
+            }, 1000);
+            isRunning = true;
+            startPauseBtn.innerHTML = '<i class="bi bi-pause-fill"></i>'; // Muda para ícone de pausar
+            resetBtn.disabled = false;
+        };
+
+        const pauseTimer = () => {
+            clearInterval(timerInterval);
+            isRunning = false;
+            startPauseBtn.innerHTML = '<i class="bi bi-play-fill"></i>'; // Muda para ícone de iniciar
+        };
+
+        const resetTimer = () => {
+            clearInterval(timerInterval);
+            elapsedSeconds = 0;
+            updateDisplay();
+            isRunning = false;
+            startPauseBtn.innerHTML = '<i class="bi bi-play-fill"></i>';
+            resetBtn.disabled = true;
+        };
+
+        const toggleStartPause = () => {
+            if (isRunning) {
+                pauseTimer();
+            } else {
+                startTimer();
+            }
+        };
+
+        // Adicionando os eventos aos botões
+        startPauseBtn.addEventListener('click', toggleStartPause);
+        resetBtn.addEventListener('click', resetTimer);
+    </script>
+</body>
+</html>
