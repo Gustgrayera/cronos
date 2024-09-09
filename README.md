@@ -42,5 +42,3 @@ Este é um cronômetro simples desenvolvido com HTML, CSS (Bootstrap), e JavaScr
 
 4. Utilize os botões para iniciar, pausar e reiniciar o cronômetro.
 
-## Estrutura do Projeto
-
